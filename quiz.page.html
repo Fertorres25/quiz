@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Quiz SUMA</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Quiz SUMAS</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card *ngIf="!showScore">
+    <ion-card-header>
+      {{ questions[currentIndex].text }}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-radio-group [(ngModel)]="questions[currentIndex].selectedAnswer">
+          <ion-item *ngFor="let answer of questions[currentIndex].answers" lines="none">
+            <ion-label>{{ answer }}</ion-label>
+            <ion-radio slot="start" [value]="answer"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" (click)="nextQuestion()" *ngIf="!showScore && currentIndex < questions.length - 1">Siguiente</ion-button>
+  <ion-button expand="block" (click)="checkAnswers()" *ngIf="!showScore && currentIndex === questions.length - 1">Verificar Respuestas</ion-button>
+
+  <ion-card *ngIf="showScore">
+    <ion-card-header>
+      Tu Puntuación
+    </ion-card-header>
+    <ion-card-content>
+      <p>¡Obtuviste {{ correctAnswers }} de {{ questions.length }} correctas!</p>
+      <ion-button expand="block" (click)="resetQuiz()">Reiniciar Quiz</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
